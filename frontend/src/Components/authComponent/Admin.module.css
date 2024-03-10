@@ -1,10 +1,11 @@
 .login_form {
-    
+    /* text-align: center; */
+    margin-top: 13rem;
     padding: 20px;
     /* 
     border: 1px solid #ccc; */
     border-radius: 5px;
-    margin-left: 3rem;
+    margin-left: 8rem;
 }
 .label:focus{
     border: 4px solid #8673a8;
@@ -22,8 +23,7 @@
 }
 .login{
     padding: 6px 20px;
-    margin: 10px;
-    width: 100%;
+    width: 25rem;
     font-size: 16px;
     cursor: pointer;
     background-color: rgba(54, 67, 180, 0.178);
