@@ -42,7 +42,8 @@ export default function WelcomePage() {
         </>
     }
     return (
-        <div className={classes.container}>
+       <div className={classes.welcome}>
+            <div className={classes.container}>
             <div className={classes.left}>
                 <div className={classes.heading}>
                     {content}
@@ -55,7 +56,9 @@ export default function WelcomePage() {
             <div className={classes.right}>
                 {data}
             </div>
-        </div>
+        </div> 
+
+       </div>
 
     );
 }
