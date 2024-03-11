@@ -1,15 +1,18 @@
 // import fs from "node:fs/promises";
-import bodyParser from "body-parser";
 import express from "express";
 import chalk from "chalk";
+import bcrypt from "bcryptjs";
 import "./database/mongoose.js";
 import Patient from "./database/UserModels/Patient.js";
 import Doctor from "./database/UserModels/Doctor.js";
 import Admin from "./database/UserModels/Admin.js";
+import patientRouter from "./routes/patient.js";
+import doctorRouter from "./routes/doctor.js";
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
@@ -25,6 +28,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(patientRouter);
+app.use(doctorRouter);
+
 app.get("/", (req, res) => {
   return res.send("<h1>Welcome!</h1>");
 });
@@ -36,39 +42,37 @@ a new user, redirect to login page */
 app.post("/signup", async (req, res) => {
   try {
     // DATABASE CONNECTION IS SUCCESSFUL BUT req.body is not being parsed correctly
-    let { userEmail, password, userType } = req.body;
+    const { userEmail, password, userType } = req.body;
     let user;
-    console.log(req.body);
-    console.log(userType);
-    userEmail = "sahil@gmail.com";
-    password = "Sahil@jiit";
-    userType = "DOCTOR";
+    // console.log(req.body);
+    // console.log(userType);
     // check user doesn't exist already!
     if (userType === "ADMIN") {
-      // user = await Admin.InsertOne({ userEmail, password });
+      user = new Admin({
+        email: userEmail,
+        password,
+      });
     } else if (userType === "DOCTOR") {
       user = new Doctor({
         email: userEmail,
         password,
       });
-
-      user
-        .save()
-        .then(() => {
-          console.log(user);
-        })
-        .catch((error) => {
-          console.log("Error!", error);
-        });
-      // user = await Doctor.InsertOne({ userEmail, password });
     } else if (userType === "PATIENT") {
-      // user = await Patient.InsertOne({ userEmail, password });
-    } else {
+      user = new Patient({
+        email: userEmail,
+        password,
+      });
+    }
+    if (!user) {
       return res.status(400).json({ error: "Invalid User Type" });
     }
-
-    if (user) {
+    try {
+      await user.save();
+      console.log(user);
       return res.status(200).json({ message: "Signup successful", user });
+    } catch (error) {
+      console.log("Error!", error);
+      return res.status(400).json({ error: "Invalid User Type" });
     }
   } catch (error) {
     console.error("Error during signup:", error);
@@ -79,19 +83,17 @@ app.post("/signup", async (req, res) => {
 credentials. Ensure that token creation is also done here. Redirect to home page. */
 app.post("/login", async (req, res) => {
   try {
-    //const { userEmail, password, userType } = req.body;
-    console.log(req.body);
-    const userEmail = "sahil@gmail.com",
-      password = "Sahil@jiit",
-      userType = "DOCTOR";
+    const { userEmail, password, userType } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 8);
+    // console.log(req.body);
     let user;
     // handle the type of user an login accordingly
     if (userType === "ADMIN") {
-      user = await Admin.findOne({ email: userEmail, password });
+      user = await Admin.findByCredentials(userEmail, password);
     } else if (userType === "DOCTOR") {
-      user = await Doctor.findOne({ email: userEmail, password });
+      user = await Admin.findByCredentials(userEmail, password);
     } else if (userType === "PATIENT") {
-      user = await Patient.findOne({ email: userEmail, password });
+      user = await Admin.findByCredentials(userEmail, password);
     } else {
       return res.status(400).json({ error: "Invalid User Type" });
     }
