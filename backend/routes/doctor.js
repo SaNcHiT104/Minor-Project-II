@@ -1,12 +1,16 @@
 import express from "express";
 import Doctor from "../database/UserModels/Doctor.js";
+import checkAuthMiddleware from "../middlewares/auth.js";
 
-const doctorRouter = new express.Router()
+const doctorRouter = new express.Router();
 
-doctorRouter.patch("/doctor/:id/profile", async (req, res) => {
+doctorRouter.patch(
+  "/doctor/:id/profile",
+  checkAuthMiddleware(["DOCTOR"]),
+  async (req, res) => {
     // first check credentials: TODO
     const userId = req.params.id;
-    console.log(userId);
+    // console.log(userId);
     try {
       const user = await Doctor.findByIdAndUpdate(userId, req.body, {
         new: true,
@@ -20,6 +24,7 @@ doctorRouter.patch("/doctor/:id/profile", async (req, res) => {
       return res.status(400).send(error);
     }
     // The profile data sent by the user must be updated in the database
-  });
+  }
+);
 
 export default doctorRouter;
