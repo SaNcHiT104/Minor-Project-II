@@ -2,6 +2,7 @@ import chalk from "chalk";
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
+import { createJSONToken } from "../../AuthManager/auth.js";
 
 const patientSchema = new mongoose.Schema({
   email: {
@@ -35,6 +36,11 @@ const patientSchema = new mongoose.Schema({
     },
   },
   address: { type: String, trim: true },
+  tokens: {
+    token: {
+      type: String,
+    },
+  },
 });
 // hash the user password before saving
 patientSchema.pre("save", async function (next) {
@@ -44,6 +50,19 @@ patientSchema.pre("save", async function (next) {
   }
   next();
 });
+
+// method for generating auth Tokens
+patientSchema.methods.generateAuthToken = async function () {
+  const user = this;
+  const token = createJSONToken({
+    _id: user._id.toString(),
+    userType: "PATIENT",
+  });
+  // we are also going to store the token in the database, and overwrite it if one already exists
+  user.tokens = { token };
+  await user.save();
+  return token;
+};
 
 // check user credentials using compare method of bcrypt
 patientSchema.statics.findByCredentials = async (email, password) => {
