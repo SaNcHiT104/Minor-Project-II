@@ -40,8 +40,10 @@ const patientSchema = new mongoose.Schema({
     token: {
       type: String,
     },
+    default: {},
   },
 });
+
 // hash the user password before saving
 patientSchema.pre("save", async function (next) {
   const user = this;
@@ -50,6 +52,15 @@ patientSchema.pre("save", async function (next) {
   }
   next();
 });
+
+// method to send the data we want to send, removing password and tokens from the object
+patientSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.tokens;
+  return userObject;
+};
 
 // method for generating auth Tokens
 patientSchema.methods.generateAuthToken = async function () {
