@@ -51,6 +51,7 @@ const checkAuthMiddleware = (allowedModels) => {
         if (user) {
           // console.log("USER or NOT" + user);
           req.user = user;
+          req.token = token;
           break;
         }
       }

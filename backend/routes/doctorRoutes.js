@@ -5,11 +5,11 @@ import checkAuthMiddleware from "../middlewares/auth.js";
 const doctorRouter = new express.Router();
 
 doctorRouter.patch(
-  "/doctor/:id/profile",
+  "/doctor/me/profile",
   checkAuthMiddleware(["DOCTOR"]),
   async (req, res) => {
     // first check credentials: TODO
-    const userId = req.params.id;
+    const userId = req.user._id;
     // console.log(userId);
     try {
       const user = await Doctor.findByIdAndUpdate(userId, req.body, {
@@ -19,7 +19,7 @@ doctorRouter.patch(
       if (!user) {
         return res.status(404).send();
       }
-      res.send(user);
+      res.status(200).send(user);
     } catch (error) {
       return res.status(400).send(error);
     }

@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import { createJSONToken } from "../../AuthManager/auth.js";
+/* We have set up our token as a single unit only, assuming usercan login from one device only. 
+If there are multiple devices, we can use an array of tokens to store them! This was causing issue
+as "tokens.token" was not being accessed correctly so I removed it */
 
 const doctorSchema = new mongoose.Schema({
   email: {
@@ -41,8 +44,19 @@ const doctorSchema = new mongoose.Schema({
     token: {
       type: String,
     },
+    default: {},
   },
 });
+
+// method to send the data we want to send, removing password and tokens from the object
+// the toJSON function converts the object we sent back to a json object, allowing us to manipulate it before
+doctorSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.tokens;
+  return userObject;
+};
 
 // method for generating auth Tokens
 doctorSchema.methods.generateAuthToken = async function () {
