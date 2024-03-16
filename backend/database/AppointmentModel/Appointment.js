@@ -16,6 +16,8 @@ const appointmentSchema = new mongoose.Schema({
       }
     },
   },
+  patientName: { type: String, trim: true, required: true },
+  doctorName: { type: String, trim: true, required: true },
   contactInfo: { type: String },
   // assuming only 1 appoitment can be booked for a patient in a day
   // need to configure the date, or atleast make sure user sees a human readable date
