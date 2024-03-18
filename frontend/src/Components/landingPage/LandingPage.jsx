@@ -20,9 +20,9 @@ export default function LandingPage() {
               Your well-being journey starts here. Embrace a vibrant life today!
             </div>
             <div className={classes.down}>
-              <Link to="/signUp">
-                <button className={classes.button}>Get started</button>
-              </Link>
+              {/* <Link to="/signUp"> */}
+              <button className={classes.button}>Get started</button>
+              {/* </Link> */}
               <img src={img} alt="" className={classes.img} />
             </div>
           </div>
