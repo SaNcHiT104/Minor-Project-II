@@ -3,8 +3,8 @@ import { useState } from "react";
 import image from "./../../../assets/patient.webp";
 import maleImage from "./../../../assets/maleProfile.avif";
 import femaleImage from "./../../../assets/femaleProfile.jpg";
-import Footer from "../../../UI/Footer";
-import NavBar from "../../../UI/NavBar";
+import Footer from "../../../UI/Footer.jsx";
+import NavBar from "../../../UI/NavBar.jsx";
 // import DoctorProfileAppointment from "./DoctorProfileAppointment";
 
 export default function PatientProfile() {
