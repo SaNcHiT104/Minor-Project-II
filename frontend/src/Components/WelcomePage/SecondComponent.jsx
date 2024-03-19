@@ -1,7 +1,7 @@
 import classes from "./SecondComponent.module.css";
 import SecondComponentCard from "./SecondComponentCard";
 import { useState } from "react";
-import img from "../../assets/doctorSecondComponent.avif";
+// import img from "../../assets/doctorSecondComponent.avif";
 export default function SecondComponent() {
   const [component, changeComponent] = useState(true);
   let data;
@@ -75,7 +75,7 @@ export default function SecondComponent() {
             }
           />
         </div>
-        <img src={img} className={classes.right}></img>
+        {/* <img src={img} className={classes.right}></img> */}
       </div>
     );
   }

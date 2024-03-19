@@ -1,5 +1,5 @@
 import classes from "./NavBar.module.css";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 export default function NavBar() {
   return (
     <nav className={classes.header}>
