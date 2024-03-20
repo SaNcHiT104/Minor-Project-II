@@ -51,7 +51,7 @@ export default function App() {
         },
         {
           path: "doctor/me",
-          element: <DoctorRoot />,
+          element: <WelcomePage />,
           children: [
             {
               path: "home",
