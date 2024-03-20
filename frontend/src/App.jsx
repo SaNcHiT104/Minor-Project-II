@@ -41,7 +41,29 @@ export default function App() {
             },
             {
               path: "findADoctor",
+              element: <DoctorProfilePatient />,
+            },
+            {
+              path: "education",
               element: <LandingPage />,
+            },
+          ],
+        },
+        {
+          path: "doctor/me",
+          element: <DoctorRoot />,
+          children: [
+            {
+              path: "home",
+              element: <Header />,
+            },
+            {
+              path: "profile",
+              element: <DoctorProfile />,
+            },
+            {
+              path: "appointment",
+              element: <Appointment />,
             },
             {
               path: "education",
