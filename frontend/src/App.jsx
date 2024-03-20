@@ -9,6 +9,7 @@ import "./index.css";
 import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
+import SignUp from "./Components/authComponent/Signup.jsx";
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -19,7 +20,11 @@ export default function App() {
           element: <LandingPage />,
         },
         {
-          path: "signUp",
+          path: "signup",
+          element: <SignUp />,
+        },
+        {
+          path: "login",
           element: <WelcomePage />,
         },
         {
