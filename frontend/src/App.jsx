@@ -43,10 +43,10 @@ export default function App() {
               path: "findADoctor",
               element: <DoctorProfilePatient />,
             },
-            {
-              path: "education",
-              element: <LandingPage />,
-            },
+            // {
+            //   path: "education",
+            //   element: <LandingPage />,
+            // },
           ],
         },
         {
@@ -65,10 +65,10 @@ export default function App() {
               path: "appointment",
               element: <Appointment />,
             },
-            {
-              path: "education",
-              element: <LandingPage />,
-            },
+            // {
+            //   path: "education",
+            //   element: <LandingPage />,
+            // },
           ],
         },
       ],
