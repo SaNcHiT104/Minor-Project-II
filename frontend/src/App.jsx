@@ -10,6 +10,10 @@ import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
 import SignUp from "./Components/authComponent/Signup.jsx";
+import PregnancyPanic from "./Components/Education/templatePage.js";
+import SexualityWTF from "./Components/Education/SexualityWTF.js";
+import NavigatingConsent from "./Components/Education/NavigatingConsent.js";
+import SexualAnatomy from "./Components/Education/SexualAnatomy.js";
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -28,7 +32,17 @@ export default function App() {
           element: <WelcomePage />,
         },
         {
-          path: "patient/me",
+          path: "education",
+          element: <SexualAnatomy />,
+          children: [
+            {
+              path: "sexualitywtf",
+              element: <SexualityWTF />,
+            },
+          ],
+        },
+        {
+          path: "patient/:id",
           element: <PatientRoot />,
           children: [
             {
@@ -43,10 +57,6 @@ export default function App() {
               path: "findADoctor",
               element: <DoctorProfilePatient />,
             },
-            // {
-            //   path: "education",
-            //   element: <LandingPage />,
-            // },
           ],
         },
         {
@@ -65,10 +75,6 @@ export default function App() {
               path: "appointment",
               element: <Appointment />,
             },
-            // {
-            //   path: "education",
-            //   element: <LandingPage />,
-            // },
           ],
         },
       ],
