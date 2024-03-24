@@ -10,7 +10,7 @@ import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
 import SignUp from "./Components/authComponent/Signup.jsx";
-import PregnancyPanic from "./Components/Education/templatePage.js";
+import PregnancyPanic from "./Components/Education/PregnancyPanic.js";
 import SexualityWTF from "./Components/Education/SexualityWTF.js";
 import NavigatingConsent from "./Components/Education/NavigatingConsent.js";
 import SexualAnatomy from "./Components/Education/SexualAnatomy.js";
@@ -37,11 +37,26 @@ export default function App() {
         },
         {
           path: "education",
-          element: <SexualAnatomy />,
           children: [
             {
-              path: "sexualitywtf",
+              index: true,
+              element: <Education />,
+            },
+            {
+              path: "sexuality_wtf_is_it_anyway",
               element: <SexualityWTF />,
+            },
+            {
+              path: "pregnancy_panic",
+              element: <PregnancyPanic />,
+            },
+            {
+              path: "navigating_consent",
+              element: <NavigatingConsent />,
+            },
+            {
+              path: "sexual_anatomy",
+              element: <SexualAnatomy />,
             },
           ],
         },
@@ -84,6 +99,7 @@ export default function App() {
       ],
     },
   ]);
+
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>

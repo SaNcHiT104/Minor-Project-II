@@ -949,7 +949,7 @@ There are all kinds of relationships: family relationships, friendships, romanti
           </p>
           <ul className={classes.education_links}>
             <li>
-              <Link to="/education/preganncy_panic">
+              <Link to="/education/pregnancy_panic">
                 The Pregnancy Panic Companion
               </Link>
             </li>

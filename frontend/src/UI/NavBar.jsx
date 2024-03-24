@@ -40,7 +40,7 @@ export default function NavBar() {
         </button>
         <button className={classes.allnav}>
           <NavLink
-            to="/patient/me/education"
+            to="/education"
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
