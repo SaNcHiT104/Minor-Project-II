@@ -29,13 +29,15 @@ const patientSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
     validate(value) {
-      if (value.toLowerCase().includes("password"))
+      if (value.trim().toLowerCase().includes("password"))
         throw new Error(
           chalk.redBright.inverse("Password contains the word password!")
         );
     },
   },
   address: { type: String, trim: true },
+  allergies: {type: String},
+  DOB: {type: Date},
   tokens: {
     token: {
       type: String,

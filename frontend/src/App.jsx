@@ -10,7 +10,18 @@ import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
 import SignUp from "./Components/authComponent/Signup.jsx";
+<<<<<<< HEAD
 import DoctorList from "./Components/Doctor/DoctorList/DoctorListHead";
+=======
+import PregnancyPanic from "./Components/Education/PregnancyPanic.js";
+import SexualityWTF from "./Components/Education/SexualityWTF.js";
+import NavigatingConsent from "./Components/Education/NavigatingConsent.js";
+import SexualAnatomy from "./Components/Education/SexualAnatomy.js";
+import Education from "./Components/Education/Education.jsx";
+import DoctorRoot from "./Components/Doctor/DoctorRoute/DoctorRoot.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { queryClient } from "./util/appointment.js";
+>>>>>>> b5ecf6e1c35241fc1dae014ae3c773c299c08ff5
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -29,7 +40,32 @@ export default function App() {
           element: <WelcomePage />,
         },
         {
-          path: "patient/me",
+          path: "education",
+          children: [
+            {
+              index: true,
+              element: <Education />,
+            },
+            {
+              path: "sexuality_wtf_is_it_anyway",
+              element: <SexualityWTF />,
+            },
+            {
+              path: "pregnancy_panic",
+              element: <PregnancyPanic />,
+            },
+            {
+              path: "navigating_consent",
+              element: <NavigatingConsent />,
+            },
+            {
+              path: "sexual_anatomy",
+              element: <SexualAnatomy />,
+            },
+          ],
+        },
+        {
+          path: "patient/:id",
           element: <PatientRoot />,
           children: [
             {
@@ -54,15 +90,11 @@ export default function App() {
                 }
               ]
             },
-            {
-              path: "education",
-              element: <LandingPage />,
-            },
           ],
         },
         {
           path: "doctor/me",
-          element: <WelcomePage />,
+          element: <DoctorRoot />,
           children: [
             {
               path: "home",
@@ -76,15 +108,17 @@ export default function App() {
               path: "appointment",
               element: <Appointment />,
             },
-            {
-              path: "education",
-              element: <LandingPage />,
-            },
           ],
         },
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
   // return <DoctorProfilePatient />;
 }

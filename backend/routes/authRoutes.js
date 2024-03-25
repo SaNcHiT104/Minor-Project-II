@@ -28,7 +28,7 @@ authRouter.post("/signup", async (req, res) => {
       });
     }
     if (!user) {
-      return res.status(400).json({ error: "Invalid User Type" });
+      return res.status(401).json({ error: " BAD REQUEST! Validation errors detected." });
     }
     // console.log(user);
     try {
@@ -40,7 +40,7 @@ authRouter.post("/signup", async (req, res) => {
         .json({ message: "Signup successful", user, token });
     } catch (error) {
       console.log("Error!", error);
-      return res.status(400).json({ error: "Invalid User Type" });
+      return res.status(409).json({ error: "Error! A user with same email already exists!" });
     }
   } catch (error) {
     console.error("Error during signup:", error);
@@ -62,7 +62,7 @@ authRouter.post("/login", async (req, res) => {
     } else if (userType === "PATIENT") {
       user = await Patient.findByCredentials(userEmail, password);
     } else {
-      return res.status(400).json({ error: "Invalid User Type" });
+      return res.status(401).json({ error: "Invalid User Type" });
     }
 
     if (user) {
