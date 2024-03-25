@@ -10,9 +10,7 @@ import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
 import SignUp from "./Components/authComponent/Signup.jsx";
-<<<<<<< HEAD
 import DoctorList from "./Components/Doctor/DoctorList/DoctorListHead";
-=======
 import PregnancyPanic from "./Components/Education/PregnancyPanic.js";
 import SexualityWTF from "./Components/Education/SexualityWTF.js";
 import NavigatingConsent from "./Components/Education/NavigatingConsent.js";
@@ -21,7 +19,6 @@ import Education from "./Components/Education/Education.jsx";
 import DoctorRoot from "./Components/Doctor/DoctorRoute/DoctorRoot.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { queryClient } from "./util/appointment.js";
->>>>>>> b5ecf6e1c35241fc1dae014ae3c773c299c08ff5
 export default function App() {
   const router = createBrowserRouter([
     {
