@@ -10,6 +10,7 @@ import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
 import SignUp from "./Components/authComponent/Signup.jsx";
+import DoctorList from "./Components/Doctor/DoctorList/DoctorListHead";
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -41,7 +42,17 @@ export default function App() {
             },
             {
               path: "findADoctor",
-              element: <DoctorProfilePatient />,
+              
+              children:[
+                {
+                  path:"doctorprofile",
+                  element:<DoctorProfilePatient/>
+                },
+                {
+                  index:true,
+                  element: <DoctorList />,
+                }
+              ]
             },
             {
               path: "education",
