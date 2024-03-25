@@ -10,6 +10,7 @@ import Appointment from "./Components/Appointments/Appointment.jsx";
 import DoctorProfilePatient from "./Components/Doctor/DoctorProfilePatient/DoctorProfilePatient.jsx";
 import PatientRoot from "./Components/Patient/PatientRoute/PatientRoot.jsx";
 import SignUp from "./Components/authComponent/Signup.jsx";
+import DoctorList from "./Components/Doctor/DoctorList/DoctorListHead";
 import PregnancyPanic from "./Components/Education/PregnancyPanic.js";
 import SexualityWTF from "./Components/Education/SexualityWTF.js";
 import NavigatingConsent from "./Components/Education/NavigatingConsent.js";
@@ -74,7 +75,17 @@ export default function App() {
             },
             {
               path: "findADoctor",
-              element: <DoctorProfilePatient />,
+              
+              children:[
+                {
+                  path:"doctorprofile",
+                  element:<DoctorProfilePatient/>
+                },
+                {
+                  index:true,
+                  element: <DoctorList />,
+                }
+              ]
             },
           ],
         },
