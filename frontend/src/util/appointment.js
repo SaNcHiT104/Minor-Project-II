@@ -1,4 +1,6 @@
 import { queryClient } from "./http";
+// import { QueryClient } from "@tanstack/react-query";
+
 export async function fetchPatientUpcomingAppointments({ status }) {
   const response = await fetch(`http://localhost:3000/doctor/me/appointments`, {
     method: "GET",

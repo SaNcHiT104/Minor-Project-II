@@ -196,6 +196,7 @@
   font-weight: 550;
 }
 .contactDetails {
+  text-align: center;
   color: #5e5454;
 }
 .body {
@@ -336,7 +337,7 @@ button:hover .button_text {
 }
 .detailsHeading {
   color: black;
-  width: 5rem;
+  width: 3rem;
   margin-right: 2rem;
   margin-top: 0.2rem;
 }

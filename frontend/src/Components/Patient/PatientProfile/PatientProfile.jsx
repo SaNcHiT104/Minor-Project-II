@@ -1,9 +1,8 @@
 import classes from "./PatientProfile.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import image from "../../../assets/patient.webp";
 import maleImage from "../../../assets/maleProfile.avif";
 import femaleImage from "../../../assets/femaleProfile.jpg";
-import { patientpro } from "../../../util/data";
 import PatientRightDown from "./PatientRightDown";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingIndicator from "../../../UI/LoadingIndicator";
@@ -14,11 +13,50 @@ import {
 } from "../../../util/patient";
 import { queryClient } from "../../../util/http";
 export default function PatientProfile() {
-  const [isEdit, changeIsEdit] = useState(true);
-  const { data, isPending, isError, error } = useQuery({
+  const {
+    data: patientpro,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["getPatientInfo"],
     queryFn: fetchPatientProfile,
   });
+  const [formData, changeFormData] = useState({});
+  const [isEdit, changeIsEdit] = useState(true);
+  useEffect(() => {
+    const dateObject = new Date(patientpro?.DOB);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Adding 1 to month since it's zero-based
+    const day = String(dateObject.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    if (patientpro?.age >= 0) {
+      changeIsEdit(false);
+    }
+    changeFormData({
+      ...formData,
+      name: patientpro?.name,
+      contact: patientpro?.contactInfo,
+      email: patientpro?.email,
+      address: patientpro?.address,
+      gender: patientpro?.gender,
+      dateOfBirth: formattedDate,
+      age: patientpro?.age,
+      allergies: patientpro?.allergies,
+    });
+  }, [patientpro]);
+  const [typed, handleTyped] = useState({
+    name: false,
+    contact: false,
+    email: false,
+    address: false,
+    gender: false,
+    dateOfBirth: false,
+    age: false,
+    allergies: false,
+  });
+
+  let content;
   const {
     mutate,
     data: mutedData,
@@ -46,69 +84,23 @@ export default function PatientProfile() {
     },
   });
   function handleEdit() {
-    if (!submitcheck) {
+    if (!checkAllerror.submitcheck) {
       alert("Please enter correct details");
     } else {
       if (isEdit) {
-        mutate({ newFormData: formData });
+        mutate(formData);
       }
       changeIsEdit(!isEdit);
     }
   }
-  const [formData, changeFormData] = useState({
-    name: patientpro.name,
-    contact: patientpro.contactInfo,
-    email: patientpro.email,
-    address: patientpro.address,
-    gender: patientpro.gender,
-    dateOfBirth: patientpro.DOB,
-    age: patientpro.age,
-    allergies: patientpro.allergies,
-  });
-  const [typed, handleTyped] = useState({
-    name: false,
-    contact: false,
-    email: false,
-    address: false,
+  const [checkAllerror, changeCheckAllerror] = useState({
     gender: false,
-    dateOfBirth: false,
+    contact: false,
     age: false,
-    allergies: false,
+    address: false,
+    submitcheck: false,
   });
-  function handleBlur(identifier) {
-    handleTyped((prev) => ({ ...prev, [identifier]: true }));
-  }
-  function handleChange(identifier, event) {
-    changeFormData((prev) => ({
-      ...prev,
-      [identifier]: event.target.value,
-    }));
-    handleTyped((prev) => ({ ...prev, [identifier]: false }));
-  }
-  //Validation
-  const checkmail = typed.email && !formData.email.includes("@");
-  const contactCheck =
-    typed.contact &&
-    (formData.contact.length !== 10 || formData.contact.charAt(0) === "0");
-  const checkGender =
-    typed.gender &&
-    !(
-      formData.gender.toLowerCase() === "male" ||
-      formData.gender.toLowerCase() === "female"
-    );
-  const checkAge = typed.age && formData.age <= 0;
-  const checkAddrss = typed.address && formData.address.length === 0;
-  const submitcheck =
-    formData.email.includes("@") &&
-    formData.contact.length === 10 &&
-    formData.age >= 0 &&
-    formData.address.length >= 0 &&
-    (formData.gender.toLowerCase() === "male" ||
-      formData.gender.toLowerCase() === "female");
-  let content;
-  if (isPending) {
-    content = <LoadingIndicator />;
-  }
+
   if (isError) {
     content = (
       <ErrorBlock
@@ -116,8 +108,10 @@ export default function PatientProfile() {
         message={error.info?.message || "Please try again later"}
       />
     );
-  }
-  if (data) {
+  } else if (isLoading) {
+    content = <LoadingIndicator />;
+  } else if (patientpro) {
+    // let gendercheck = formData?.gender.toLowerCase();
     content = (
       <div className={classes.body}>
         <div className={classes.left}>
@@ -126,7 +120,7 @@ export default function PatientProfile() {
               <p className={classes.name}>
                 <img
                   src={
-                    formData.gender.toLowerCase() === "male"
+                    formData.gender?.toLowerCase() === "male"
                       ? maleImage
                       : femaleImage
                   }
@@ -148,7 +142,7 @@ export default function PatientProfile() {
                 )}
                 {!isEdit && (
                   <p className={classes.realname}>
-                    {formData.gender.toLocaleLowerCase() === "male"
+                    {formData?.gender.toLocaleLowerCase() === "male"
                       ? "Mr"
                       : "Ms"}{" "}
                     {formData.name}
@@ -175,32 +169,15 @@ export default function PatientProfile() {
                 {!isEdit && (
                   <p className={classes.contactDetails}>{formData.contact}</p>
                 )}
-                {isEdit && contactCheck && (
+                {isEdit && checkAllerror.contact && (
                   <div className={classes.correct}>
                     Please enter valid phone number
                   </div>
                 )}
               </div>
               <div className={classes.nameEdit}>
-                <p className={classes.detailsHeading}>Email: </p>
-                {/* {isEdit && (
-              <input
-                type="email"
-                className={classes.input}
-                placeholder="email"
-                onChange={(event) => handleChange("email", event)}
-                value={formData.email}
-                onBlur={() => {
-                  handleBlur("email");
-                }}
-              ></input>
-            )} */}
-                {/* {isEdit && checkmail && (
-              <div className={classes.correct}>
-                Please enter valid email
-              </div>
-            )} */}
-                (<p className={classes.contactDetails}>{formData.email}</p>)
+                <p className={classes.detailsHeading}>Email: </p>(
+                <p className={classes.contactDetails}>{formData.email}</p>)
               </div>
               <div className={classes.nameEdit}>
                 <p className={classes.detailsHeading}>Address:</p>
@@ -219,7 +196,7 @@ export default function PatientProfile() {
                 {!isEdit && (
                   <p className={classes.contactDetails}>{formData.address}</p>
                 )}
-                {isEdit && checkAddrss && (
+                {isEdit && checkAllerror.address && (
                   <div className={classes.correct}>
                     Please enter valid address
                   </div>
@@ -236,7 +213,7 @@ export default function PatientProfile() {
             <p className={classes.overviewhead}>Overview:</p>
             <div className={classes.overview}>
               <div>
-                <p className={classes.overviewHeading}>Gender</p>
+                <p className={classes.overviewHeading}>Gender:</p>
                 {isEdit && (
                   <input
                     type="text"
@@ -251,7 +228,8 @@ export default function PatientProfile() {
                 {!isEdit && (
                   <p className={classes.overviewDetails}>{formData.gender}</p>
                 )}
-                {checkGender && (
+
+                {checkAllerror.gender && (
                   <p className={classes.correct}>
                     Gender should me male or female
                   </p>
@@ -289,7 +267,7 @@ export default function PatientProfile() {
                 {!isEdit && (
                   <p className={classes.overviewDetails}>{formData.age}</p>
                 )}
-                {checkAge && (
+                {checkAllerror.age && (
                   <p className={classes.correct}>Age should be positve</p>
                 )}
               </div>
@@ -320,6 +298,50 @@ export default function PatientProfile() {
       </div>
     );
   }
+
+  function handleBlur(identifier) {
+    handleTyped((prev) => ({ ...prev, [identifier]: true }));
+    console.log(typed);
+  }
+  function handleChange(identifier, event) {
+    changeFormData((prev) => ({
+      ...prev,
+      [identifier]: event.target.value,
+    }));
+    handleTyped((prev) => ({ ...prev, [identifier]: false }));
+  }
+
+  useEffect(() => {
+    if (patientpro && formData) {
+      // console.log("hello" + patientpro.name);
+      // console.log(formData, formData.email);
+      let contactCheck =
+        typed.contact &&
+        (formData.contact?.length !== 10 || formData.contact.charAt(0) === "0");
+      changeCheckAllerror((prev) => ({ ...prev, ["contact"]: contactCheck }));
+      let tempcheckGender =
+        typed.gender &&
+        !(
+          formData.gender.toLowerCase() === "male" ||
+          formData.gender.toLowerCase() === "female"
+        );
+      changeCheckAllerror((prev) => ({ ...prev, ["gender"]: tempcheckGender }));
+      let checkAge = typed.age && formData.age <= 0;
+      changeCheckAllerror((prev) => ({ ...prev, ["age"]: checkAge }));
+      let checkAddrss = typed.address && formData.address.length === 0;
+      changeCheckAllerror((prev) => ({ ...prev, ["address"]: checkAddrss }));
+      let submitcheck =
+        formData.age >= 0 &&
+        formData.address.length >= 0 &&
+        (formData.gender.toLowerCase() === "male" ||
+          formData.gender.toLowerCase() === "female");
+      changeCheckAllerror((prev) => ({
+        ...prev,
+        ["submitcheck"]: submitcheck,
+      }));
+    }
+  }, [formData, typed]);
+
   return (
     <>
       <div className={classes.container}>
