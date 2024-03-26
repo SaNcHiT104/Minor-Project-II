@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+// import { QueryClient } from "@tanstack/react-query";
 
 export async function fetchPatientUpcomingAppointments({ status }) {
   const response = await fetch(
