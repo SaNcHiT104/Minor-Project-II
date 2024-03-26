@@ -90,7 +90,7 @@ export default function App() {
           ],
         },
         {
-          path: "doctor/me",
+          path: "doctor/:id",
           element: <DoctorRoot />,
           children: [
             {
