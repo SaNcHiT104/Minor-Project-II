@@ -5,7 +5,7 @@ export async function fetchDoctorProfile() {
     //   body: JSON.stringify({ status }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGQ4ZjVhZDdjYjkxNDNkMjUyMDIiLCJ1c2VyVHlwZSI6IkRPQ1RPUiIsImlhdCI6MTcxMTI3OTUwMywiZXhwIjoxNzExODg0MzAzfQ.Btencsk_-SzNIpkRT162pyj-TYmMztS8IdA7N8tTskU`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   if (!response.ok) {
@@ -24,6 +24,7 @@ export async function updateDoctorProfile({
   gender,
   age,
   specialty,
+  qualification,
 }) {
   const response = await fetch("http://localhost:3000/doctor/me/profile", {
     method: "PATCH",
@@ -34,10 +35,11 @@ export async function updateDoctorProfile({
       gender: gender,
       specialty: specialty,
       age: age,
+      qualification: qualification,
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGQ4ZjVhZDdjYjkxNDNkMjUyMDIiLCJ1c2VyVHlwZSI6IkRPQ1RPUiIsImlhdCI6MTcxMTI3OTUwMywiZXhwIjoxNzExODg0MzAzfQ.Btencsk_-SzNIpkRT162pyj-TYmMztS8IdA7N8tTskU`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   if (!response.ok) {

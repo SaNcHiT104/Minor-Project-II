@@ -7,7 +7,7 @@ export async function fetchPatientUpcomingAppointments({ status }) {
     //   body: JSON.stringify({ status }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGQ4ZjVhZDdjYjkxNDNkMjUyMDIiLCJ1c2VyVHlwZSI6IkRPQ1RPUiIsImlhdCI6MTcxMTI3OTUwMywiZXhwIjoxNzExODg0MzAzfQ.Btencsk_-SzNIpkRT162pyj-TYmMztS8IdA7N8tTskU`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   if (!response.ok) {
@@ -19,13 +19,13 @@ export async function fetchPatientUpcomingAppointments({ status }) {
   return data;
 }
 export async function updateAppointmentStatus({ id }) {
-  //   console.log("hello" + id);
+  // console.log("hello" + id);
   const response = await fetch(`http://localhost:3000/doctor/me/appointment`, {
     method: "PATCH",
     body: JSON.stringify({ status: true, aptId: id }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGQ4ZjVhZDdjYjkxNDNkMjUyMDIiLCJ1c2VyVHlwZSI6IkRPQ1RPUiIsImlhdCI6MTcxMTI3OTUwMywiZXhwIjoxNzExODg0MzAzfQ.Btencsk_-SzNIpkRT162pyj-TYmMztS8IdA7N8tTskU`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   if (!response.ok) {
@@ -35,3 +35,4 @@ export async function updateAppointmentStatus({ id }) {
   }
   return response.json();
 }
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGQ4ZjVhZDdjYjkxNDNkMjUyMDIiLCJ1c2VyVHlwZSI6IkRPQ1RPUiIsImlhdCI6MTcxMTI3OTUwMywiZXhwIjoxNzExODg0MzAzfQ.Btencsk_-SzNIpkRT162pyj-TYmMztS8IdA7N8tTskU

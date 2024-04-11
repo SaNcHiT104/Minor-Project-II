@@ -30,7 +30,7 @@ export default function PatientProfile() {
     const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Adding 1 to month since it's zero-based
     const day = String(dateObject.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
-    if (patientpro?.age >= 0) {
+    if (patientpro?.age > 0) {
       changeIsEdit(false);
     }
     changeFormData({
@@ -142,7 +142,7 @@ export default function PatientProfile() {
                 )}
                 {!isEdit && (
                   <p className={classes.realname}>
-                    {formData?.gender.toLocaleLowerCase() === "male"
+                    {formData.gender?.toLocaleLowerCase() === "male"
                       ? "Mr"
                       : "Ms"}{" "}
                     {formData.name}
@@ -317,7 +317,8 @@ export default function PatientProfile() {
       // console.log(formData, formData.email);
       let contactCheck =
         typed.contact &&
-        (formData.contact?.length !== 10 || formData.contact.charAt(0) === "0");
+        (formData.contact?.length !== 10 ||
+          formData.contact?.charAt(0) === "0");
       changeCheckAllerror((prev) => ({ ...prev, ["contact"]: contactCheck }));
       let tempcheckGender =
         typed.gender &&
@@ -331,10 +332,11 @@ export default function PatientProfile() {
       let checkAddrss = typed.address && formData.address.length === 0;
       changeCheckAllerror((prev) => ({ ...prev, ["address"]: checkAddrss }));
       let submitcheck =
+        formData.contact?.length === 10 &&
         formData.age >= 0 &&
-        formData.address.length >= 0 &&
-        (formData.gender.toLowerCase() === "male" ||
-          formData.gender.toLowerCase() === "female");
+        formData.address?.length >= 0 &&
+        (formData.gender?.toLowerCase() === "male" ||
+          formData.gender?.toLowerCase() === "female");
       changeCheckAllerror((prev) => ({
         ...prev,
         ["submitcheck"]: submitcheck,

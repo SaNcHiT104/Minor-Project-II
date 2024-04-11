@@ -2,14 +2,11 @@ import AppointMentHeader from "./AppointMentHeader.jsx";
 import classes from "./Appointment.module.css";
 import AppointmentCard from "./AppointmentCard.jsx";
 import { useState } from "react";
-import {
-  fetchPatientUpcomingAppointments,
-  updateAppointmentStatus,
-} from "../../util/appointment.js";
-import { queryClient } from "../../util/http.js";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { fetchPatientUpcomingAppointments } from "../../util/appointment.js";
+import { useQuery } from "@tanstack/react-query";
 import LoadingIndicator from "../../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../../UI/ErrorBlock.jsx";
+import AppointmentModal from "./AppointmentModal.jsx";
 export default function Appointment() {
   const [upcoming, changeUpcoming] = useState(true);
   const {
@@ -21,24 +18,16 @@ export default function Appointment() {
     queryFn: () => fetchPatientUpcomingAppointments(!upcoming),
     queryKey: ["patient"],
   });
-  const {
-    data: mutateData,
-    mutate,
-    isError: mutateError,
-    error: mutateer,
-  } = useMutation({
-    mutationFn: updateAppointmentStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["patient"],
-      });
-    },
-  });
 
+  let mainData;
+  const [openModal, changeModal] = useState(false);
+  const [singleObj, changeSingleObj] = useState(undefined);
   function handleRemove(id) {
-    mutate({ id: id });
+    // mutate({ id: id });
+    changeModal(true);
+    const doneclickedObj = content.appointments.filter((obj) => obj._id === id);
+    changeSingleObj(doneclickedObj);
   }
-
   function upcomingAppointmentHandler() {
     changeUpcoming(true);
   }
@@ -95,20 +84,37 @@ export default function Appointment() {
       if (pastAppointments.length === 0) isDataPresent = true;
     }
   }
-  return (
-    <div className={classes.container}>
-      <AppointMentHeader
-        upcomingAppointmentHandler={upcomingAppointmentHandler}
-        pastAppointmentHandler={pastAppointmentHandler}
-        upcoming={upcoming}
-      />
-      {upcoming && isDataPresent && (
-        <p className={classes.appoint}>No upcoming appointments</p>
-      )}
-      {!upcoming && isDataPresent && (
-        <p className={classes.appoint}>No past appointments</p>
-      )}
-      {data}
+
+  mainData = (
+    <div>
+      <div className={classes.container}>
+        {!openModal && (
+          <div>
+            <AppointMentHeader
+              upcomingAppointmentHandler={upcomingAppointmentHandler}
+              pastAppointmentHandler={pastAppointmentHandler}
+              upcoming={upcoming}
+            />
+            {upcoming && isDataPresent && (
+              <p className={classes.appoint}>No upcoming appointments</p>
+            )}
+            {!upcoming && isDataPresent && (
+              <p className={classes.appoint}>No past appointments</p>
+            )}
+            {data}
+          </div>
+        )}
+        {openModal && singleObj && (
+          <AppointmentModal
+            obj={singleObj}
+            onClose={() => {
+              changeModal(false);
+            }}
+          />
+        )}
+      </div>
     </div>
   );
+
+  return mainData;
 }

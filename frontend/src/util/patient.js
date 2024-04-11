@@ -23,7 +23,7 @@ export async function updatePatientProfile({
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGFiNTVhZDdjYjkxNDNkMjUxYzUiLCJ1c2VyVHlwZSI6IlBBVElFTlQiLCJpYXQiOjE3MTEyOTI0NTUsImV4cCI6MTcxMTg5NzI1NX0.lswoZrNtTAPTp3JIWhxtqGSBd4xt8hr4R06CX7b7Dzw`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   if (!response.ok) {
@@ -40,7 +40,7 @@ export async function fetchPatientProfile() {
     //   body: JSON.stringify({ status }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGFiNTVhZDdjYjkxNDNkMjUxYzUiLCJ1c2VyVHlwZSI6IlBBVElFTlQiLCJpYXQiOjE3MTEyOTI0NTUsImV4cCI6MTcxMTg5NzI1NX0.lswoZrNtTAPTp3JIWhxtqGSBd4xt8hr4R06CX7b7Dzw`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   if (!response.ok) {
@@ -52,3 +52,7 @@ export async function fetchPatientProfile() {
   console.log(data);
   return data;
 }
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjAwMGFiNTVhZDdjYjkxNDNkMjUxYzUiLCJ1c2VyVHlwZSI6IlBBVElFTlQiLCJpYXQiOjE3MTEyOTI0NTUsImV4cCI6MTcxMTg5NzI1NX0.lswoZrNtTAPTp3JIWhxtqGSBd4xt8hr4R06CX7b7Dzw
+
+//jainsanchit14112002@gmail.com
+//Hello@123

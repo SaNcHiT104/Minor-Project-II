@@ -4,9 +4,9 @@ import img from "../assets/logo.jpg";
 import { logoutAction } from "../util/auth";
 export default function NavBarDoctor() {
   const navigate = useNavigate();
-  function logoutActionHandler()  {
+  function logoutActionHandler() {
     logoutAction();
-    navigate('/login');
+    navigate("/login");
   }
   return (
     <nav className={classes.header}>
@@ -15,7 +15,7 @@ export default function NavBarDoctor() {
       <div className={classes.innerContainer}>
         <button className={classes.allnav}>
           <NavLink
-            to="/doctor/me/home"
+            to="/doctor/:id/home"
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
@@ -25,7 +25,7 @@ export default function NavBarDoctor() {
         </button>
         <button className={classes.allnav}>
           <NavLink
-            to="/doctor/me/appointment"
+            to="/doctor/:id/appointment"
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
@@ -35,7 +35,7 @@ export default function NavBarDoctor() {
         </button>
         <button className={classes.allnav}>
           <NavLink
-            to="/doctor/me/education"
+            to="/education"
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
@@ -45,7 +45,7 @@ export default function NavBarDoctor() {
         </button>
         <button className={classes.allnav}>
           <NavLink
-            to="/doctor/me/profile"
+            to="/doctor/:id/profile"
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }

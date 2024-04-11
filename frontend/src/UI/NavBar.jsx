@@ -6,29 +6,43 @@ export default function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  function logoutActionHandler()  {
+  function logoutActionHandler() {
     logoutAction();
-    navigate('/login');
+    navigate("/login");
   }
-
+  const isPatient = location.pathname.includes("patient");
+  const isDoctor = location.pathname.includes("doctor");
   return (
     <nav className={classes.header}>
       <img src={img} className={classes.logo} alt="Logo"></img>
       <div className={classes.innerContainer}>
-        <button className={classes.allnav}>
-          <NavLink
-            to="/patient/me/home"
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
-            }
-          >
-            <span>Home</span>
-          </NavLink>
-        </button>
-        <button className={classes.allnav}>
-          {location.pathname.includes("patient") ? (
+        {isPatient ? (
+          <button className={classes.allnav}>
             <NavLink
-              to="/patient/me/findAdoctor"
+              to="/patient/:id/home"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              <span>Home</span>
+            </NavLink>
+          </button>
+        ) : (
+          <button className={classes.allnav}>
+            <NavLink
+              to="/doctor/:id/home"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              <span>Home</span>
+            </NavLink>
+          </button>
+        )}
+        <button className={classes.allnav}>
+          {isPatient ? (
+            <NavLink
+              to="/patient/:id/findAdoctor"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
@@ -37,7 +51,7 @@ export default function NavBar() {
             </NavLink>
           ) : (
             <NavLink
-              to="/doctor/me/appointment"
+              to="/doctor/:id/appointment"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
@@ -56,16 +70,29 @@ export default function NavBar() {
             <span>Education</span>
           </NavLink>
         </button>
-        <button className={classes.allnav}>
-          <NavLink
-            to="/patient/me/profile"
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
-            }
-          >
-            <span>Profile</span>
-          </NavLink>
-        </button>
+        {isPatient ? (
+          <button className={classes.allnav}>
+            <NavLink
+              to="/patient/:id/profile"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              <span>Profile</span>
+            </NavLink>
+          </button>
+        ) : (
+          <button className={classes.allnav}>
+            <NavLink
+              to="/doctor/:id/profile"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              <span>Profile</span>
+            </NavLink>
+          </button>
+        )}
       </div>
       <div className={classes.logout}>
         <button class={classes.Btn} onClick={logoutActionHandler}>

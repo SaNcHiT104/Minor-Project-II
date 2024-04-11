@@ -60,6 +60,7 @@ export default function PatientProfile() {
     if (patientpro?.age >= 0) {
       changeIsEdit(false);
     }
+    console.log(patientpro);
     changeFormData({
       ...formData,
       name: patientpro?.name,
@@ -69,6 +70,8 @@ export default function PatientProfile() {
       gender: patientpro?.gender,
       age: patientpro?.age,
       specialty: patientpro?.specialty,
+      qualification: patientpro?.qualification,
+      rating: patientpro?.totalRating,
     });
   }, [patientpro]);
 
@@ -320,7 +323,34 @@ export default function PatientProfile() {
             </div>
           </div>
           <div className={classes.rightdown}>
-            {/* <DoctorProfileAppointment /> */}
+            <div className={classes.qualificationContainer}>
+              <div className={classes.overviewhead}>Qualifications :</div>
+              {isEdit && (
+                <input
+                  type="text"
+                  className={classes.qualifyinput}
+                  onChange={(event) => handleChange("qualification", event)}
+                  value={formData.qualification}
+                ></input>
+              )}
+              {isEdit && (
+                <div className={classes.qualifymessage}>
+                  Please Enter "," Seperated Values
+                </div>
+              )}
+              {!isEdit && (
+                <p className={classes.qualifyDetails}>
+                  {formData.qualification}
+                </p>
+              )}
+            </div>
+            <div className={classes.ratingContainer}>
+              <p className={classes.rating}>Rating:</p>
+              <div
+                className={classes["star-rating"]}
+                data-rating={formData.rating}
+              ></div>
+            </div>
           </div>
         </div>
       </div>
