@@ -17,12 +17,11 @@ import NavigatingConsent from "./Components/Education/NavigatingConsent.js";
 import SexualAnatomy from "./Components/Education/SexualAnatomy.js";
 import Education from "./Components/Education/Education.jsx";
 import DoctorRoot from "./Components/Doctor/DoctorRoute/DoctorRoot.jsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import AuthRoute, {
   redirectToHome,
 } from "./Components/authComponent/AuthRoute.js";
-
-// import { queryClient } from "./util/appointment.js";
+import { queryClient } from "./util/http.js";
 export default function App() {
   const isAuthenticated = localStorage.getItem("token") !== null;
   console.log(isAuthenticated)
