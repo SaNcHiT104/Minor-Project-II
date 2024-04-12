@@ -5,9 +5,20 @@ import img from "./../../assets/maleProfile.avif";
 import AppointmentModalForm from "./AppointmentModalForm";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../util/http";
-import { updateAppointmentStatus } from "../../util/appointment";
+import {
+  updateAppointmentStatus,
+  addPrescription,
+} from "../../util/appointment";
 function Modal({ onClose, obj }) {
   // console.log(obj);
+  const { data, mutate: prescriptionMutate } = useMutation({
+    mutationFn: addPrescription,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["patient"],
+      });
+    },
+  });
   const {
     data: mutateData,
     mutate,
@@ -35,11 +46,8 @@ function Modal({ onClose, obj }) {
     if (!isUndefined) {
       alert("Please fill all the details");
     } else {
-      console.log(obj._id);
       mutate({ id: obj[0]._id });
-      setTimeout(() => {
-        handleClose();
-      }, 500);
+      handleClose();
     }
     console.log(formObj);
   }

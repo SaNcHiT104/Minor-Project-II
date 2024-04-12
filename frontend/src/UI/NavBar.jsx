@@ -2,7 +2,11 @@ import classes from "./NavBar.module.css";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import img from "../assets/logo.jpg";
 import { logoutAction } from "../util/auth";
+import { useState } from "react";
+import ProtectedRoute from "../Components/authComponent/ProtectedRoute";
 export default function NavBar() {
+  // Implement route protection
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -16,39 +20,36 @@ export default function NavBar() {
     <nav className={classes.header}>
       <img src={img} className={classes.logo} alt="Logo"></img>
       <div className={classes.innerContainer}>
-        {isPatient ? (
-          <button className={classes.allnav}>
-            <NavLink
-              to="/patient/:id/home"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <span>Home</span>
-            </NavLink>
-          </button>
-        ) : (
-          <button className={classes.allnav}>
-            <NavLink
-              to="/doctor/:id/home"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <span>Home</span>
-            </NavLink>
-          </button>
-        )}
         <button className={classes.allnav}>
-          {isPatient ? (
-            <NavLink
-              to="/patient/:id/findAdoctor"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
+          <ProtectedRoute
+            userType="PATIENT"
+            children={
+              <NavLink
+                to={`/patient/${userId}/home`}
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                <span>Home</span>
+              </NavLink>
+            }
+          />
+        </button>
+        <button className={classes.allnav}>
+          {location.pathname.includes("patient") ? (
+            <ProtectedRoute
+              userType="PATIENT"
+              children={
+                <NavLink
+                  to={`/patient/${userId}/findAdoctor`}
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  <span>Find a Doctor</span>
+                </NavLink>
               }
-            >
-              <span>Find a Doctor</span>
-            </NavLink>
+            />
           ) : (
             <NavLink
               to="/doctor/:id/appointment"
@@ -61,38 +62,35 @@ export default function NavBar() {
           )}
         </button>
         <button className={classes.allnav}>
-          <NavLink
-            to="/education"
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
+          <ProtectedRoute
+            userType="PATIENT"
+            children={
+              <NavLink
+                to={`/patient/${userId}/education`}
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                <span>Education</span>
+              </NavLink>
             }
-          >
-            <span>Education</span>
-          </NavLink>
+          />
         </button>
-        {isPatient ? (
-          <button className={classes.allnav}>
-            <NavLink
-              to="/patient/:id/profile"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <span>Profile</span>
-            </NavLink>
-          </button>
-        ) : (
-          <button className={classes.allnav}>
-            <NavLink
-              to="/doctor/:id/profile"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              <span>Profile</span>
-            </NavLink>
-          </button>
-        )}
+        <button className={classes.allnav}>
+          <ProtectedRoute
+            userType="PATIENT"
+            children={
+              <NavLink
+                to={`/patient/${userId}/profile`}
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                <span>Profile</span>
+              </NavLink>
+            }
+          />
+        </button>
       </div>
       <div className={classes.logout}>
         <button class={classes.Btn} onClick={logoutActionHandler}>

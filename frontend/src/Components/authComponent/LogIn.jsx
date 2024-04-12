@@ -92,6 +92,8 @@ export default function Login({ state, handlePatient, handleDoctor }) {
     // get the userType and id and based on that navigate to that home page.
     const decodedToken = await getDecodedTokenInfoFromToken(token);
     // console.log(decodedToken.userType + decodedToken.userId);
+    localStorage.setItem("userType", decodedToken.userType);
+    localStorage.setItem("userId", decodedToken.userId);
     if (decodedToken.userType === "PATIENT") {
       navigate(`/patient/${decodedToken.userId}/home`);
     } else if (decodedToken.userType === "DOCTOR") {

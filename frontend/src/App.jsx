@@ -37,31 +37,6 @@ export default function App() {
           element: <WelcomePage />,
         },
         {
-          path: "education",
-          children: [
-            {
-              index: true,
-              element: <Education />,
-            },
-            {
-              path: "sexuality_wtf_is_it_anyway",
-              element: <SexualityWTF />,
-            },
-            {
-              path: "pregnancy_panic",
-              element: <PregnancyPanic />,
-            },
-            {
-              path: "navigating_consent",
-              element: <NavigatingConsent />,
-            },
-            {
-              path: "sexual_anatomy",
-              element: <SexualAnatomy />,
-            },
-          ],
-        },
-        {
           path: "patient/:id",
           element: <PatientRoot />,
           children: [
@@ -87,6 +62,31 @@ export default function App() {
                 }
               ]
             },
+            {
+              path: "education",
+              children: [
+                {
+                  index: true,
+                  element: <Education />,
+                },
+                {
+                  path: "sexuality_wtf_is_it_anyway",
+                  element: <SexualityWTF />,
+                },
+                {
+                  path: "pregnancy_panic",
+                  element: <PregnancyPanic />,
+                },
+                {
+                  path: "navigating_consent",
+                  element: <NavigatingConsent />,
+                },
+                {
+                  path: "sexual_anatomy",
+                  element: <SexualAnatomy />,
+                },
+              ],
+            },
           ],
         },
         {
@@ -104,6 +104,31 @@ export default function App() {
             {
               path: "appointment",
               element: <Appointment />,
+            },
+            {
+              path: "education",
+              children: [
+                {
+                  index: true,
+                  element: <Education />,
+                },
+                {
+                  path: "sexuality_wtf_is_it_anyway",
+                  element: <SexualityWTF />,
+                },
+                {
+                  path: "pregnancy_panic",
+                  element: <PregnancyPanic />,
+                },
+                {
+                  path: "navigating_consent",
+                  element: <NavigatingConsent />,
+                },
+                {
+                  path: "sexual_anatomy",
+                  element: <SexualAnatomy />,
+                },
+              ],
             },
           ],
         },
