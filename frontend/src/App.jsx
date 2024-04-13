@@ -22,9 +22,10 @@ import AuthRoute, {
   redirectToHome,
 } from "./Components/authComponent/AuthRoute.js";
 import { queryClient } from "./util/http.js";
+import PatientEHR from "./Components/EHR/PatientEHR.js";
 export default function App() {
   const isAuthenticated = localStorage.getItem("token") !== null;
-  console.log(isAuthenticated)
+  console.log(isAuthenticated);
   // const redirectToHome = useRedirectToLogin();
   const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ export default function App() {
             {
               path: "profile",
               element: <PatientProfile />,
+            },
+            {
+              path: "patientEHR",
+              element: <PatientEHR />,
             },
             {
               path: "findADoctor",
