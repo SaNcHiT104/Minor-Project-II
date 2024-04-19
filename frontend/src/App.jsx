@@ -22,11 +22,8 @@ import AuthRoute, {
   redirectToHome,
 } from "./Components/authComponent/AuthRoute.js";
 import { queryClient } from "./util/http.js";
+import PatientEHR from "./Components/EHR/PatientEHR.js";
 export default function App() {
-  const isAuthenticated = localStorage.getItem("token") !== null;
-  console.log(isAuthenticated)
-  
-
   // const redirectToHome = useRedirectToLogin();
   const router = createBrowserRouter([
     {
@@ -38,14 +35,24 @@ export default function App() {
         },
         {
           path: "signup",
-          element: isAuthenticated ? redirectToHome() : <SignUp />,
+          element:
+            localStorage.getItem("token") !== null ? (
+              redirectToHome()
+            ) : (
+              <SignUp />
+            ),
         },
         {
           path: "login",
-          element: isAuthenticated ? redirectToHome() : <WelcomePage />,
+          element:
+            localStorage.getItem("token") !== null ? (
+              redirectToHome()
+            ) : (
+              <WelcomePage />
+            ),
         },
         {
-          path: "patient/:id",
+          path: "patient/:patientId",
           element: (
             <AuthRoute>
               <PatientRoot />
@@ -61,11 +68,15 @@ export default function App() {
               element: <PatientProfile />,
             },
             {
+              path: "patientEHR",
+              element: <PatientEHR />,
+            },
+            {
               path: "findADoctor",
 
               children: [
                 {
-                  path: "doctorprofile/:id",
+                  path: "doctorprofile",
                   element: <DoctorProfilePatient />,
                 },
                 {
@@ -120,6 +131,10 @@ export default function App() {
             {
               path: "appointment",
               element: <Appointment />,
+            },
+            {
+              path: "viewEHR/:patientId",
+              element: <PatientEHR />,
             },
             {
               path: "education",
