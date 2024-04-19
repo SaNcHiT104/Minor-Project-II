@@ -25,6 +25,8 @@ import { queryClient } from "./util/http.js";
 export default function App() {
   const isAuthenticated = localStorage.getItem("token") !== null;
   console.log(isAuthenticated)
+  
+
   // const redirectToHome = useRedirectToLogin();
   const router = createBrowserRouter([
     {
@@ -63,7 +65,7 @@ export default function App() {
 
               children: [
                 {
-                  path: "doctorprofile",
+                  path: "doctorprofile/:id",
                   element: <DoctorProfilePatient />,
                 },
                 {
