@@ -4,6 +4,8 @@ import { useState } from "react";
 import SpecialisationList from "./SpecialisationList";
 import QualificationList from "./QualificationList";
 import { Link } from "react-router-dom";
+import img from "../../../assets/doctorCardImage.jpg";
+import { motion } from "framer-motion";
 export default function DoctorCard(props) {
   const [expertise, setExpertise] = useState(true);
   const [quali, setQualification] = useState(false);
@@ -16,12 +18,12 @@ export default function DoctorCard(props) {
     setExpertise(false);
   }
   return (
-    <div>
+    <motion.div whileHover={{ scale: 1.04 }}>
       <div className={classes.doctorlist_cards}>
         <div className={classes.doctorlist_card}>
           <div className={classes.doctorlist_top}>
             <div className={classes.doctorlist_left}>
-              <img src="https://www.medanta.org/storage/all-doctor-with-slug/dr-arvind-kumar.png"></img>
+              <img src={img}></img>
             </div>
             <div className={classes.doctorlist_right}>
               <div className={classes["content-top"]}>
@@ -32,9 +34,9 @@ export default function DoctorCard(props) {
               <div className={classes["content-bottom"]}>
                 <div className={classes.row1}>
                   <div className={classes.field}>{props.field}</div>
-                  <div className={classes}>
+                  <motion.div className={classes} whileHover={{ scale: 1.1 }}>
                     <Link to="doctorprofile">Visit the Profile</Link>
-                  </div>
+                  </motion.div>
                 </div>
                 <div className={classes.row2}>
                   <div className={classes.location}>Gurgram</div>
@@ -61,10 +63,15 @@ export default function DoctorCard(props) {
             </div>
           </div>
           <div>
-            <button className={classes.Button}>Meet The Doctor</button>
+            <motion.button
+              className={classes.Button}
+              whileHover={{ scale: 1.08 }}
+            >
+              Meet The Doctor
+            </motion.button>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
