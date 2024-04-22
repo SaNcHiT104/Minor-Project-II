@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 
 import classes from './Appointmentform.module.css'
+import {useMutation} from '@tanstack/react-query'
+import {createPatientAppointment} from '../../../util/appointment';
+import { useParams } from 'react-router';
 
 export default function Appointmentform() {
+    const {doctorId}=useParams();
     const [didEdit,setDidEdit]=useState({
         fullname:false,
         contactInfo:false,
@@ -36,11 +40,24 @@ export default function Appointmentform() {
         }));
         
       }
+    const {
+        data:mutateData,
+        mutate,
+        isPending,
+        isError:mutateErrorMessage,
+
+    }=useMutation({
+        mutationFn:createPatientAppointment,
+    })
     function handleSubmit(event)
     {
+        
         event.preventDefault();
         // console.log(enteredEmail);
         console.log(enteredValues);
+        const DataDoctor = {...enteredValues,doctor:doctorId}
+        mutate(DataDoctor)
+        console.log(DataDoctor);
         setEnteredValues({
             fullname:'',
             contactInfo:'',
@@ -102,7 +119,7 @@ export default function Appointmentform() {
                     onChange={(event)=>handleInput('description',event)}/>
             </div>
             <br/>
-            <button className={classes['book_button']}>Book Appointment</button>
+            <button  className={classes['book_button']}>Book Appointment</button>
         </form>
     </div>
     )
