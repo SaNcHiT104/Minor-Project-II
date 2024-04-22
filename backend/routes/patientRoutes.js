@@ -56,6 +56,9 @@ patientRouter.get(
   async (req, res) => {
     const queries = {};
     try {
+      if (req.query.doctorId) {
+        queries._id = req.query.doctorId;
+      }
       if (req.query.specialty) {
         queries.specialty = req.query.specialty;
       }
