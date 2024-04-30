@@ -9,14 +9,34 @@ import ErrorBlock from "../../../UI/ErrorBlock.jsx";
 import { fetchDoctorList } from "../../../util/patient.js";
 
 export default function DoctorListHead() {
-  const[disease,setDisease]=useState();
-  const[location,setLocation]=useState();
-  const[rating,setRating]=useState();
+  const [specialty, setSpecialty] = useState(null);
+  const [cityName, setCityName] = useState(null);
+  const [rating, setRating] = useState(null);
   // console.log(doctorprofile);'
-  const { data, isPending, isError, error } = useQuery({
-    queryFn: () => fetchDoctorList(),
+  const { data, isPending, isError, error, refetch } = useQuery({
+    queryFn: () => fetchDoctorList({ specialty, cityName, rating }),
     queryKey: ["doctorlist"],
-  })
+    config: {
+      refetchOnWindowFocus: false, // Prevents automatic refetching on window focus
+    },
+  });
+
+  const handleSpecialtyChange = (value) => {
+    setSpecialty(value);
+  };
+
+  const handleCityNameChange = (value) => {
+    setCityName(value);
+  };
+
+  const handleRatingChange = (value) => {
+    setRating(value);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [specialty, cityName, rating]);
+
   let content;
 
   if (isPending) {
@@ -72,47 +92,35 @@ export default function DoctorListHead() {
             className={styles.select}
             name="disease"
             whileHover={{ scale: 1.1 }}
+            onChange={(e) => handleSpecialtyChange(e.target.value)}
           >
-            <option value="" onClick={() => setDisease(null)}>Select Speciality</option>
-            <option value="ENT" onClick={() => setDisease("ENT")}>
-              ENT
-            </option>
-            <option value="Oncologist" onClick={() => setDisease("Oncologist")}>
-              Oncologist
-            </option>
-            <option value="Physician" onClick={() => setDisease("Physician")}>
-              Physician
-            </option>
+            <option value="">Select Speciality</option>
+            <option value="ENT">ENT</option>
+            <option value="Oncologist">Oncologist</option>
+            <option value="Physician">Physician</option>
           </motion.select>
 
           <motion.select
             className={styles.select}
             name="location"
             whileHover={{ scale: 1.1 }}
+            onChange={(e) => handleCityNameChange(e.target.value)}
           >
             <option value="">Select Location</option>
-            <option value="Gurgram" onClick={() => setLocation("Gurugram")}>
-              Gurgram
-            </option>
-            <option value="Patna" onClick={() => setLocation("Patna")}>
-              Patna
-            </option>
-            <option value="Delhi" onClick={() => setLocation("Delhi")}>
-              Delhi
-            </option>
+            <option value="Gurugram">Gurugram</option>
+            <option value="Jaipur">Jaipur</option>
+            <option value="Patna">Patna</option>
+            <option value="Delhi">Delhi</option>
           </motion.select>
 
           <motion.select
             className={styles.select}
             name="rating"
             whileHover={{ scale: 1.1 }}
+            onChange={(e) => handleRatingChange(e.target.value)}
           >
-            <option value="" onClick={() => setRating(null)}>
-              Select Rating
-            </option>
-            <option value="4+" onClick={() => setRating(4)}>
-              4.0+
-            </option>
+            <option value="">Select Rating</option>
+            <option value="4">4.0+</option>
           </motion.select>
         </div>
       </div>

@@ -60,8 +60,9 @@ patientRouter.get(
         queries._id = req.query.doctorId;
       }
       if (req.query.specialty) {
-        const specialtyRegex = new RegExp(req.query.specialty, "i"); // Case-insensitive search
-        queries.specialty = { $regex: specialtyRegex };
+        // For major project!
+        // const specialtyRegex = new RegExp(req.query.specialty, "i"); // Case-insensitive search
+        queries.specialty = req.query.specialty;
       }
       if (req.query.rating) {
         const rating = parseInt(req.query.rating);
