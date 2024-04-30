@@ -18,16 +18,11 @@ export default function DoctorListHead() {
   const[disease,setDisease]=useState();
   const[location,setLocation]=useState();
   const[rating,setRating]=useState();
-  useEffect(() => {
-    
-  }, [disease,location,rating])
-  // /patient/me/doctor_list
   // console.log(doctorprofile);'
   const { data, isPending, isError, error } = useQuery({
     queryFn: () => fetchDoctorList(),
     queryKey: ["doctorlist"],
-  });
-
+  })
   let content;
 
   if (isPending) {
