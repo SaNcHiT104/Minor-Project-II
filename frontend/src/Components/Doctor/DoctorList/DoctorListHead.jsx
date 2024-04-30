@@ -56,16 +56,7 @@ export default function DoctorListHead() {
   }
   if (data) {
     content = data.doctors?.map((obj) => {
-      return (
-        <DoctorCard
-          id={obj._id}
-          name={obj.name}
-          post={obj.gender}
-          field={""}
-          sl={[]}
-          ql={[]}
-        />
-      );
+      return <DoctorCard id={obj._id} obj={obj} />;
     });
   }
   return (
