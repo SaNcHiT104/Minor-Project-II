@@ -40,19 +40,19 @@ export default function EducationSecondComponent() {
           src="navigating_consent"
         />
         <EducationSecondComponentCard
-          heading={
-            "Sexual Anatomy For Every Body"
-          }
+          heading={"Sexual Anatomy For Every Body"}
           paragraph="Pleasure zones are everywhere, and your brain's the real pleasure master.
           Discover how hormones and experiences shape your desires in this article. "
           src="sexual_anatomy"
         />
       </motion.div>
-      <img
-        src={img}
-        alt="image_of_book_library"
-        className={classes.right}
-      ></img>
+      <div className={classes.imageSection}>
+        <img
+          src={img}
+          alt="image_of_book_library"
+          className={classes.right}
+        ></img>
+      </div>
     </div>
   );
 }
